@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:paddingStart="@dimen/preference_item_padding_side"
+              android:paddingEnd="?android:attr/scrollbarSize">
+
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/listPreferredItemHeightSmall"
+            android:hint="@string/input_port_here"
+            android:id="@+id/port"
+            android:inputType="number"
+            android:imeOptions="actionDone"/>
+
+    <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/listPreferredItemHeightSmall"
+            android:id="@+id/charset"
+            android:dropDownWidth="wrap_content"
+            android:gravity="start"/>
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+              style="?android:attr/listSeparatorTextViewStyle"
+              android:text="@string/all_users"/>
+
+    <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/users"/>
+</LinearLayout>

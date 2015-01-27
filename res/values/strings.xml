@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FTP Server</string>
+    <string name="new_user">New User…</string>
+    <string name="input_port_here">Input port number here</string>
+    <string name="all_users">All Users</string>
+    <string name="name">Name:</string>
+    <string name="input_name_here">Input the username here</string>
+    <string name="password">Password:</string>
+    <string name="remain_the_same">Remain the Same</string>
+    <string name="root">Root:</string>
+    <string name="input_root_here">Input the root directory here</string>
+    <string name="enabled">Enabled</string>
+    <string name="readonly">ReadOnly</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="notification_title">FTP Server is running</string>
+    <string name="notification_info">at %1$s</string>
+    <string name="notification_ticker">@string/notification_title</string>
+</resources>

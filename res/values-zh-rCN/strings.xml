@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FTP服务器</string>
+    <string name="new_user">新建用户…</string>
+    <string name="input_port_here">输入端口号</string>
+    <string name="all_users">所有用户</string>
+    <string name="name">用户名：</string>
+    <string name="input_name_here">输入用户名</string>
+    <string name="password">密码：</string>
+    <string name="remain_the_same">保持不变</string>
+    <string name="root">根目录：</string>
+    <string name="input_root_here">输入根目录</string>
+    <string name="enabled">已启用</string>
+    <string name="readonly">只读</string>
+    <string name="save">保存</string>
+    <string name="delete">删除</string>
+    <string name="notification_title">FTP服务器正在运行</string>
+    <string name="notification_info">侦听端口为%1$s</string>
+    <string name="notification_ticker">@string/notification_title</string>
+</resources>
