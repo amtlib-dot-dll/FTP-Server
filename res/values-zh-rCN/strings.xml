@@ -17,4 +17,5 @@
     <string name="notification_title">FTP服务器正在运行</string>
     <string name="notification_info">侦听端口为%1$s</string>
     <string name="notification_ticker">@string/notification_title</string>
+    <string name="invalid_port">无效的端口号</string>
 </resources>

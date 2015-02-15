@@ -16,11 +16,9 @@ import org.apache.ftpserver.usermanager.impl.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.server.ftp.Constants.DEFAULT_ROOT;
-import static org.server.ftp.Constants.EXTRA_NAME;
+import static org.server.ftp.Constants.*;
 
 public class UserActivity extends Activity {
-    public static final int REQUEST_CODE = UserActivity.class.hashCode();
     private UserManager userManager;
     private String username;
     private EditText password;
@@ -47,13 +45,14 @@ public class UserActivity extends Activity {
             root.setText(DEFAULT_ROOT);
         } else {
             name.setInputType(InputType.TYPE_NULL);
+            name.setText(username);
             try {
-                User user = userManager.getUserByName(this.username);
+                User user = userManager.getUserByName(username);
                 root.setText(user.getHomeDirectory());
                 enabled.setChecked(user.getEnabled());
                 readonly.setChecked(user.authorize(new WriteRequest()) == null);
             } catch (FtpException e) {
-                e.printStackTrace();
+                throw new IllegalStateException();
             }
         }
     }
@@ -76,17 +75,6 @@ public class UserActivity extends Activity {
                 finish();
                 return true;
             case R.id.save:
-//                Intent intent = new Intent();
-//                intent.putExtra(EXTRA_NAME, getIntent().getStringExtra(EXTRA_NAME));
-//                if (password.getText().length() > 0) {
-//                    intent.putExtra(EXTRA_PASSWORD, password.getText().toString());
-//                }
-//                if (root.getText().length() > 0) {
-//                    intent.putExtra(EXTRA_ROOT, root.getText().toString());
-//                }
-//                intent.putExtra(EXTRA_ENABLED, enabled.isChecked());
-//                intent.putExtra(EXTRA_READONLY, readonly.isChecked());
-//                setResult(RESULT_OK, intent);
                 try {
                     BaseUser user;
                     if (username == null) {
@@ -105,7 +93,6 @@ public class UserActivity extends Activity {
                         authorities.add(new WritePermission());
                     }
 
-                    //todo
                     authorities.add(new ConcurrentLoginPermission(0, 0));
                     authorities.add(new TransferRatePermission(0, 0));
 
@@ -114,7 +101,6 @@ public class UserActivity extends Activity {
                     setResult(RESULT_OK);
                 } catch (FtpException e) {
                     setResult(RESULT_CANCELED);
-                    e.printStackTrace();
                 }
                 finish();
                 return true;
@@ -124,7 +110,6 @@ public class UserActivity extends Activity {
                     setResult(RESULT_OK);
                 } catch (FtpException e) {
                     setResult(RESULT_CANCELED);
-                    e.printStackTrace();
                 }
                 finish();
                 return true;

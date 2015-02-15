@@ -4,4 +4,5 @@
         android:layout_height="match_parent"
         android:checked="false"
         android:enabled="false"
-        android:layout_gravity="end"/>
+        android:layout_gravity="end|center_vertical"
+        android:gravity="end|center_vertical"/>

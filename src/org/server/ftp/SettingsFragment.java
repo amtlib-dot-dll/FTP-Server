@@ -25,10 +25,10 @@ import static org.server.ftp.Constants.*;
 
 public class SettingsFragment extends Fragment {
     public static final Object[] charsets = Charset.availableCharsets().keySet().toArray();
+    private final List<String> names = new ArrayList<>();
     private ArrayAdapter<String> adapter;
     private SharedPreferences preferences;
     private UserManager manager;
-    private final List<String> names = new ArrayList<>();
 
     @Override
     public void onAttach(Activity activity) {
@@ -62,8 +62,14 @@ public class SettingsFragment extends Fragment {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 try {
                     Integer port = Integer.valueOf(v.getText().toString());
-                    preferences.edit().putInt(PREFERENCE_PORT, port).apply();//todo: range
-                    return true;
+                    if (port >= 1024 && port < 65536) {
+                        preferences.edit().putInt(PREFERENCE_PORT, port).apply();
+                        return true;
+                    } else {
+                        Toast.makeText(getActivity(), R.string.invalid_port, Toast.LENGTH_LONG).show();
+                        v.setText(String.valueOf(preferences.getInt(PREFERENCE_PORT, DEFAULT_PORT)));
+                        return false;
+                    }
                 } catch (NumberFormatException e) {
                     return false;
                 }
@@ -96,9 +102,9 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == adapter.getCount() - 1) {
-                    startActivityForResult(new Intent(getActivity(), UserActivity.class), UserActivity.REQUEST_CODE);
+                    startActivityForResult(new Intent(getActivity(), UserActivity.class), 0);
                 } else {
-                    startActivityForResult(new Intent(getActivity(), UserActivity.class).putExtra(EXTRA_NAME, names.get(position)), UserActivity.REQUEST_CODE);
+                    startActivityForResult(new Intent(getActivity(), UserActivity.class).putExtra(EXTRA_NAME, names.get(position)), 0);
                 }
             }
         });
@@ -106,31 +112,10 @@ public class SettingsFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-//        try {
-        if (requestCode == UserActivity.REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-//                    BaseUser user = (BaseUser) manager.getUserByName(data.getStringExtra(EXTRA_NAME));
-//                    String password = data.getStringExtra(EXTRA_PASSWORD);
-//                    if (password != null) {
-//                        user.setPassword(password);
-//                    }
-//                    user.setEnabled(data.getBooleanExtra(EXTRA_ENABLED, false));
-//                    user.setHomeDirectory(data.getStringExtra(EXTRA_ROOT));
-//                    ArrayList<Authority> authorities = new ArrayList<>(3);
-//                    if (!data.getBooleanExtra(EXTRA_READONLY, true)) {
-//                        authorities.add(new WritePermission());
-//                    }
-//                    authorities.add(new ConcurrentLoginPermission(0, 0));
-//                    authorities.add(new TransferRatePermission(0, 0));
-//                    user.setAuthorities(authorities);
-//                    manager.save(user);
-                updateNames();
-                adapter.notifyDataSetChanged();
-            }
+        if (resultCode != Activity.RESULT_OK) {
+            return;
         }
-//        } catch (FtpException e) {
-//            e.printStackTrace();
-//        }
+        updateNames();
+        adapter.notifyDataSetChanged();
     }
 }

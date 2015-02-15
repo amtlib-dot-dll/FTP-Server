@@ -20,6 +20,8 @@
 #}
 -dontwarn javax.security.sasl.*
 -dontwarn org.ietf.jgss.*
--keepclassmembers class * {
-    public <init>(*****);
+-keepclassmembers class * implements org.apache.mina.core.service.IoProcessor {
+    public <init>(java.util.concurrent.ExecutorService);
+    public <init>(java.util.concurrent.Executor);
+    public <init>();
 }

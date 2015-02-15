@@ -1,42 +1,31 @@
 package org.server.ftp;
 
-import android.app.Fragment;
+import android.app.ListFragment;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ArrayAdapter;
 
-import java.net.InetAddress;
+import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
 
 import static org.server.ftp.Constants.*;
 
-public class StatusFragment extends Fragment {
-
+public class StatusFragment extends ListFragment {
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.status, container, false);
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        TextView text1 = (TextView) view.findViewById(android.R.id.text1);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1);
         try {
-            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
-            while (interfaces.hasMoreElements()) {
+            for (Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces(); interfaces.hasMoreElements(); ) {
                 NetworkInterface networkInterface = interfaces.nextElement();
-                Enumeration<InetAddress> addresses = networkInterface.getInetAddresses();
-                while (addresses.hasMoreElements()) {
-                    InetAddress address = addresses.nextElement();
-                    text1.append(String.format(ADDRESS, address.getHostAddress(), PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt(Constants.PREFERENCE_PORT, Constants.DEFAULT_PORT)));
+                for (InterfaceAddress address : networkInterface.getInterfaceAddresses()) {
+                    adapter.add(String.format(ADDRESS, address.getAddress().getHostAddress(), PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt(Constants.PREFERENCE_PORT, Constants.DEFAULT_PORT)));
                 }
             }
         } catch (SocketException ignored) {
         }
+        setListAdapter(adapter);
     }
-
 }

@@ -13,6 +13,7 @@
             android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textIsSelectable="true"
             android:hint="@string/input_name_here"/>
 
     <TextView
